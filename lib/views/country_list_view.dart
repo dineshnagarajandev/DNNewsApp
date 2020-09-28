@@ -1,6 +1,7 @@
 import 'package:DNNewsApp/helper/constants.dart';
 import 'package:DNNewsApp/helper/data.dart';
 import 'package:DNNewsApp/models/category_model.dart';
+import 'package:DNNewsApp/views/home.dart';
 import 'package:flutter/material.dart';
 
 class CountryListView extends StatefulWidget {
@@ -22,6 +23,13 @@ class _CountryListViewState extends State<CountryListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () async {
+              print("Pop tapped");
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
+            }),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -77,8 +85,6 @@ class _CountryListViewState extends State<CountryListView> {
                     debugPrint("country tapped $index");
                     selectedCountryCode = index;
                     AppConstants.selectedCountryCode = index;
-                    print(AppConstants.selectedCountryCode);
-                    print(index);
                     setState(() {});
                   },
                   child: Container(

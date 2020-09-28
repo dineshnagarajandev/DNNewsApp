@@ -7,11 +7,17 @@ import 'package:DNNewsApp/views/article_view.dart';
 import 'package:DNNewsApp/views/country_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:country_icons/country_icons.dart';
+// import 'package:country_icons/country_icons.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
+}
+
+@protected
+@mustCallSuper
+void didPopNext(Route<dynamic> nextRoute) {
+  print("Did pop next");
 }
 
 class _HomeState extends State<Home> {
@@ -20,17 +26,25 @@ class _HomeState extends State<Home> {
   bool _loading = true;
   int selectedCategoryIndex = 0;
 
+  refresh() {
+    setState(() {
+      print("Reload here");
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     categories = getCategories();
-    getNews(category: "top headlines");
+    String selectedCountry =
+        AppConstants.countryCodeList[AppConstants.selectedCountryCode];
+    getNews(category: "top headlines", country: selectedCountry);
     print("InitState");
   }
 
-  getNews({category: String}) async {
+  getNews({category: String, country: String}) async {
     News news = News();
-    await news.getNews(category: category);
+    await news.getNews(category: category, country: country);
     newsList = news.news;
     setState(() {
       _loading = false;
@@ -42,6 +56,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -68,7 +83,8 @@ class _HomeState extends State<Home> {
                               builder: (context) => CountryListView()));
                     },
                     child: Image.asset(
-                      'icons/flags/png/in.png',
+                      AppConstants
+                          .countryFlagIcon[AppConstants.selectedCountryCode],
                       package: 'country_icons',
                       width: 20,
                       height: 20,
@@ -113,7 +129,12 @@ class _HomeState extends State<Home> {
                                     String catName = categories[index]
                                         .categoryName
                                         .toLowerCase();
-                                    getNews(category: catName);
+                                    String selectedCountry =
+                                        AppConstants.countryCodeList[
+                                            AppConstants.selectedCountryCode];
+                                    getNews(
+                                        category: catName,
+                                        country: selectedCountry);
                                   });
                                 },
                                 child: CategoryTitle(categories[index].imageURL,

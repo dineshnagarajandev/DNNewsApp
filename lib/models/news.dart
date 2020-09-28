@@ -10,16 +10,16 @@ class News {
 
   String key = Keys.apiKey;
 
-  Future<void> getNews({category: String}) async {
+  Future<void> getNews({category: String, country: String}) async {
     String apiURL =
-        "https://newsapi.org/v2/top-headlines?country=in&apiKey=$key";
+        "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$key";
 
     if (category == "top headlines") {
-      apiURL = "https://newsapi.org/v2/top-headlines?country=in&apiKey=$key";
-    } else {
-      debugPrint(category);
       apiURL =
-          "https://newsapi.org/v2/top-headlines?country=in&category=$category&apiKey=$key";
+          "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$key";
+    } else {
+      apiURL =
+          "https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$key";
     }
 
     debugPrint(apiURL);

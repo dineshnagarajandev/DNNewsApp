@@ -95,5 +95,17 @@ List<CountryModel> getCounties() {
   );
   countries.add(country);
 
+  country = new CountryModel();
+  country.countryCode = 3;
+  country.countryName = "Malaysia";
+  country.codeForAPI = "my";
+  country.countryImage = Image.asset(
+    'icons/flags/png/my.png',
+    package: 'country_icons',
+    width: 30,
+    height: 30,
+  );
+  countries.add(country);
+
   return countries;
 }
